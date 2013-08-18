@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- generator="http://www.devlogged.com/" -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+	<url>
+		<loc>http://www.devlogged.com/about/</loc>
+		<lastmod>2013-08-17T18:10:38+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.8</priority>
+	</url>
+	<url>
+		<loc>http://www.devlogged.com/tools/</loc>
+		<lastmod>2013-06-01T03:00:33+00:00</lastmod>
+		<changefreq>weekly</changefreq>
+		<priority>0.8</priority>
+	</url>
+</urlset>
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Minified using disk
+Page Caching using disk: enhanced (User is logged in)
+Database Caching using disk (Request-wide User is logged in)
+Object Caching 285/301 objects using disk
+
+ Served from: www.devlogged.com @ 2013-08-17 22:23:48 by W3 Total Cache -->
