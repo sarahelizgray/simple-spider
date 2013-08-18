@@ -22,9 +22,11 @@ def extract_links_from_html(url):
 	return links
 
 def inspect_links(urls):	
-	"""Prints page status"""
+	"""Returns a dictionary of bad links with their status codes"""
+	results = {}
 	for url in urls:
 		request = requests.get(url)
-		print "link: " + url
-		print "status: " + str(request.status_code)
+		if request.status_code != 200:
+			results[url] = str(request.status_code)
+	return results
 		
