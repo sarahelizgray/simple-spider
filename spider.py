@@ -21,7 +21,7 @@ def extract_links_from_html(url):
 		links.append(link.get('href'))
 	return links
 
-def inpect_links():	
+def inspect_links():	
 	"""Prints page status"""
 	for url in links:
 		request = requests.get(url)
