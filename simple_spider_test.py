@@ -1,7 +1,7 @@
 import unittest
 import mox
 from requests_testadapter import TestAdapter
-from spider import *
+from simple_spider import *
 
 
 class TestSpider(unittest.TestCase):
@@ -30,8 +30,10 @@ class TestSpider(unittest.TestCase):
 		requests.get(mox.IgnoreArg()).AndReturn(self.session.get('http://www.devlogged.com/about'))
 		self.mock.ReplayAll()
 		
-		links = ["http://wordpress.com", "http://aws.amazon.com/ec2/"]
-		self.assertEqual(links, extract_links_from_html('http://www.devlogged.com/about'))
+		links = {"http://wordpress.com" : "found", "http://aws.amazon.com/ec2/" : "found"}
+		extracted_links = extract_links_from_html('http://www.devlogged.com/about')
+		self.assertEqual(links, extracted_links)
+		self.assertEqual(2, len(extracted_links))
 		
 		
 unittest.main()

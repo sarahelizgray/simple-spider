@@ -12,18 +12,18 @@ def get_alL_pages_for_domain(url):
 	return links
 
 def extract_links_from_html(url):
-	"""Returns a list of all URLs extracted from a page"""
+	"""Returns a list of unique URLs extracted from a page"""
 	site_request = requests.get(url)
 	site_html = site_request.content
 	html_text = BeautifulSoup(site_html, 'lxml')
-	links = []
+	links = {}
 	for link in html_text.findAll('a'):
-		links.append(link.get('href'))
+		links[link.get('href')] = "found"
 	return links
 
-def inspect_links():	
+def inspect_links(urls):	
 	"""Prints page status"""
-	for url in links:
+	for url in urls:
 		request = requests.get(url)
 		print "link: " + url
 		print "status: " + str(request.status_code)
