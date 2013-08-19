@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import sys
 
 def get_alL_pages_for_domain(url):
 	"""Returns a list of URLs extracted from the sitemap xml"""
@@ -26,7 +27,24 @@ def inspect_links(urls):
 	results = {}
 	for url in urls:
 		request = requests.get(url)
+		print request.status_code
+		print url
 		if request.status_code != 200:
 			results[url] = str(request.status_code)
 	return results
 		
+		
+def main(argv):
+	if len(argv) != 2:
+		print "Usage: python simple_spider.py http://www.sampledomain.com"
+	else:
+		domain = argv[1]
+		all_pages = get_alL_pages_for_domain(domain)
+		all_links = {}
+		for page in all_pages:
+			all_links.update(extract_links_from_html(page))
+		all_links.pop('', None)
+		print inspect_links(all_links)
+
+if __name__ == "__main__":
+    main(sys.argv)		
