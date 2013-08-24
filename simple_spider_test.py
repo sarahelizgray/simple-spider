@@ -6,11 +6,8 @@ from simple_spider import *
 
 class TestSpider(unittest.TestCase):
 	def setUp(self):
-		self.sitemap_xml = open("test_files/sitemap.xml","r").read()
 		self.page = open("test_files/sample_page.html", "r").read()
-		
 		self.session = requests.Session()
-		
 		self.mock = mox.Mox()
 		self.mock.StubOutWithMock(requests, 'get')
 		
@@ -18,7 +15,8 @@ class TestSpider(unittest.TestCase):
 		self.mock.UnsetStubs()
 		
 	def test_get_alL_pages_for_domain(self):
-		self.session.mount('http://', TestAdapter(self.sitemap_xml, status=200))
+		sitemap_xml = open("test_files/sitemap.xml","r").read()
+		self.session.mount('http://www.devlogged.com', TestAdapter(sitemap_xml, status=200))
 		requests.get(mox.IgnoreArg()).AndReturn(self.session.get('http://www.devlogged.com'))
 		self.mock.ReplayAll()
 		
@@ -26,7 +24,7 @@ class TestSpider(unittest.TestCase):
 		self.assertEqual(links, get_alL_pages_for_domain('http://www.devlogged.com'))
 	
 	def test_extract_links_from_html(self):
-		self.session.mount('http://', TestAdapter(self.page, status=200))
+		self.session.mount('http://www.devlogged.com/about', TestAdapter(self.page, status=200))
 		requests.get(mox.IgnoreArg()).AndReturn(self.session.get('http://www.devlogged.com/about'))
 		self.mock.ReplayAll()
 		
