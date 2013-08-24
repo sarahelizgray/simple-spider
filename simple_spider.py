@@ -27,13 +27,10 @@ def inspect_links(urls):
 	results = {}
 	for url in urls:
 		request = requests.get(url)
-		print request.status_code
-		print url
 		if request.status_code != 200:
 			results[url] = str(request.status_code)
 	return results
-		
-		
+				
 def main(argv):
 	if len(argv) != 2:
 		print "Usage: python simple_spider.py http://www.sampledomain.com"
