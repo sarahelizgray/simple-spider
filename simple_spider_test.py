@@ -2,6 +2,7 @@ import unittest
 import mox
 from requests_testadapter import TestAdapter
 from simple_spider import *
+#set timecop
 
 
 class TestSpider(unittest.TestCase):
@@ -13,14 +14,15 @@ class TestSpider(unittest.TestCase):
 		self.mock.StubOutWithMock(requests, 'get')
 		self.urls_with_parents = {'http://wordpress.com' : 'http://www.devlogged.com/about', 'http://aws.amazon.com/ec2/' : 'http://www.devlogged.com/about'}
 		self.bad_urls = {'http://aws.amazon.com/ec2/' : {'status': '404', 'parent_page': 'http://www.devlogged.com/about'}}
+		self.domain = 'http://www.devlogged.com'
 
 	def tearDown(self):
 		self.mock.UnsetStubs()
 
 	def test_get_all_pages_for_domain(self):
 		sitemap_xml = open("test_files/sitemap.xml","r").read()
-		self.session.mount('http://www.devlogged.com', TestAdapter(sitemap_xml, status=200))
-		requests.get(mox.IgnoreArg()).AndReturn(self.session.get('http://www.devlogged.com'))
+		self.session.mount(self.domain, TestAdapter(sitemap_xml, status=200))
+		requests.get(mox.IgnoreArg()).AndReturn(self.session.get(self.domain))
 		self.mock.ReplayAll()
 
 		links = ['http://www.devlogged.com/about/', 'http://www.devlogged.com/tools/']
@@ -43,5 +45,13 @@ class TestSpider(unittest.TestCase):
 		self.mock.ReplayAll()
 
 		self.assertEquals(self.bad_urls, inspect_links(self.urls_with_parents))
+
+	def test_html_report(self):
+		html_report(self.bad_urls, self.domain)
+		#make sure that the report contents are the same
+		#self.assertEqual('spider.html', 'test/sample_spider_report.html')
+
+		#nuke the report once the test has been run
+
 
 unittest.main()
