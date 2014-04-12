@@ -13,7 +13,7 @@ class TestSpider(unittest.TestCase):
 		self.mock = mox.Mox()
 		self.mock.StubOutWithMock(requests, 'get')
 		self.urls_with_parents = {'http://wordpress.com' : 'http://www.devlogged.com/about', 'http://aws.amazon.com/ec2/' : 'http://www.devlogged.com/about'}
-		self.bad_urls = {'http://aws.amazon.com/ec2/' : {'status': '404', 'parent_page': 'http://www.devlogged.com/about'}}
+		self.bad_url_report = {'http://aws.amazon.com/ec2/' : {'status': '404', 'parent_page': 'http://www.devlogged.com/about'}}
 		self.domain = 'http://www.devlogged.com'
 
 	def tearDown(self):
@@ -45,10 +45,10 @@ class TestSpider(unittest.TestCase):
 		requests.get('http://aws.amazon.com/ec2/').AndReturn(self.session.get('http://aws.amazon.com/ec2/'))
 		self.mock.ReplayAll()
 
-		self.assertEquals(self.bad_urls, inspect_links(self.urls_with_parents))
+		self.assertEquals(self.bad_url_report, inspect_links(self.urls_with_parents))
 
 	def test_html_report(self):
-		html_report(self.bad_urls, self.domain)
+		html_report(self.bad_url_report, self.domain)
 		#make sure that the report contents are the same
 		#self.assertEqual('spider.html', 'test/sample_spider_report.html')
 
