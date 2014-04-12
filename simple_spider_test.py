@@ -16,7 +16,7 @@ class TestSpider(unittest.TestCase):
 	def tearDown(self):
 		self.mock.UnsetStubs()
 
-	def test_get_alL_pages_for_domain(self):
+	def test_get_all_pages_for_domain(self):
 		sitemap_xml = open("test_files/sitemap.xml","r").read()
 		self.session.mount('http://www.devlogged.com', TestAdapter(sitemap_xml, status=200))
 		requests.get(mox.IgnoreArg()).AndReturn(self.session.get('http://www.devlogged.com'))

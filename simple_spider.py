@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import sys
 from datetime import date
 
-def get_alL_pages_for_domain(domain_url):
+def get_all_pages_for_domain(domain_url):
 	"""Returns a list of URLs extracted from the sitemap xml"""
 	sitemap = requests.get(domain_url + "/sitemap.xml")
 	xml = BeautifulSoup(sitemap.content, 'xml')
@@ -21,7 +21,7 @@ def extract_links_from_html(parent_url):
 		links[link.get('href').encode('ascii','ignore')] = parent_url
 	return links
 
-def inspect_links(urls):	
+def inspect_links(urls):
 	"""Returns a dictionary of bad links with their status codes"""
 	results = {}
 	for url in urls:
@@ -45,7 +45,7 @@ def print_report(errors, domain):
 def html_report(errors, domain):
 	try:
 		f = open("spider.html", "w")
-		f.write("<html><head><title>spider report " + str(date.today()) + "</title></head></body>") 
+		f.write("<html><head><title>spider report " + str(date.today()) + "</title></head></body>")
 		f.write("<h3>Bad URLs for " + domain + " for " + str(date.today()) +"</h3>")
 		for error in errors:
 			f.write("<p>bad url: " + error + "<br>")
@@ -55,7 +55,7 @@ def html_report(errors, domain):
 		f.write("</body></html>")
 	finally:
 		f.close()
-				
+
 def main(argv):
 	if len(argv) != 2:
 		print "Usage: python simple_spider.py http://www.sampledomain.com"
@@ -71,4 +71,4 @@ def main(argv):
 		html_report(errors, domain)
 
 if __name__ == "__main__":
-    main(sys.argv)		
+    main(sys.argv)
