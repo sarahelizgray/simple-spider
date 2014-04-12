@@ -11,6 +11,7 @@ class TestSpider(unittest.TestCase):
 		self.session = requests.Session()
 		self.mock = mox.Mox()
 		self.mock.StubOutWithMock(requests, 'get')
+		self.urls_with_parents = {'http://wordpress.com' : 'http://www.devlogged.com/about', 'http://aws.amazon.com/ec2/' : 'http://www.devlogged.com/about'}
 
 	def tearDown(self):
 		self.mock.UnsetStubs()
@@ -29,10 +30,9 @@ class TestSpider(unittest.TestCase):
 		requests.get(mox.IgnoreArg()).AndReturn(self.session.get('http://www.devlogged.com/about'))
 		self.mock.ReplayAll()
 
-		links = {'http://wordpress.com' : 'http://www.devlogged.com/about', 'http://aws.amazon.com/ec2/' : 'http://www.devlogged.com/about'}
-		extracted_links = extract_links_from_html('http://www.devlogged.com/about')
-		self.assertEqual(links, extracted_links)
-		self.assertEqual(2, len(extracted_links))
+		extracted_urls = extract_links_from_html('http://www.devlogged.com/about')
+		self.assertEqual(self.urls_with_parents, extracted_urls)
+		self.assertEqual(2, len(extracted_urls))
 
 	def test_inspect_links(self):
 		self.session.mount('http://wordpress.com', TestAdapter(self.page, status=200))
@@ -41,8 +41,7 @@ class TestSpider(unittest.TestCase):
 		requests.get('http://aws.amazon.com/ec2/').AndReturn(self.session.get('http://aws.amazon.com/ec2/'))
 		self.mock.ReplayAll()
 
-		urls = {'http://wordpress.com' : 'found', 'http://aws.amazon.com/ec2/' : 'found'}
-		bad_links = {'http://aws.amazon.com/ec2/' : {'status': '404', 'parent_page': 'found'}}
-		self.assertEquals(bad_links, inspect_links(urls))
+		bad_urls = {'http://aws.amazon.com/ec2/' : {'status': '404', 'parent_page': 'http://www.devlogged.com/about'}}
+		self.assertEquals(bad_urls, inspect_links(self.urls_with_parents))
 
 unittest.main()
