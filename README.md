@@ -7,6 +7,8 @@ Why xml and lxml?
 http://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-a-parser
 
 ### Setup
+Make sure that your site has sitemap.xml at the root of your domain.
+
 ```
 sudo pip install requests
 
