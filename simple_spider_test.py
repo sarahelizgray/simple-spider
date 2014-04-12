@@ -26,11 +26,11 @@ class TestSpider(unittest.TestCase):
 		self.mock.ReplayAll()
 
 		links = ['http://www.devlogged.com/about/', 'http://www.devlogged.com/tools/']
-		self.assertEqual(links, get_all_pages_for_domain('http://www.devlogged.com'))
+		self.assertEqual(links, get_all_pages_for_domain(self.domain))
 
 	def test_extract_links_from_page_content(self):
 		page_under_test = 'http://www.devlogged.com/about'
-		self.session.mount( page_under_test, TestAdapter(self.page, status=200))
+		self.session.mount(page_under_test, TestAdapter(self.page, status=200))
 		requests.get(mox.IgnoreArg()).AndReturn(self.session.get(page_under_test))
 		self.mock.ReplayAll()
 
