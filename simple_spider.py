@@ -12,7 +12,7 @@ def get_all_pages_for_domain(domain_url):
 		links.append(link.string.encode('ascii','ignore'))
 	return links
 
-def extract_links_from_html(parent_url):
+def extract_links_from_page_content(parent_url):
 	"""Returns a list of unique URLs extracted from a page"""
 	parent_page = requests.get(parent_url)
 	html = BeautifulSoup(parent_page.content, 'lxml')
