@@ -2,6 +2,10 @@ Spider
 ======
 A spider that relies on google sitemap.xml to look for broken links in your site.
 
+###Spider construction
+Why xml and lxml?
+http://www.crummy.com/software/BeautifulSoup/bs4/doc/#installing-a-parser
+
 ### Setup
 ```
 sudo pip install requests
