@@ -48,19 +48,22 @@ def print_report(errors, domain):
 def html_report(errors, domain):
 	try:
 		f = open("spider.html", "w")
-		f.write("<html><head><title>spider report " + str(date.today()) + "</title></head></body>")
+		f.write("<html>")
+		f.write("<head><title>spider report " + str(date.today()) + "</title></head>")
+		f.write("<body>")
 		f.write("<h3>Bad URLs for " + domain + " for " + str(date.today()) +"</h3>")
 		for error in errors:
 			f.write("<p>bad url: " + error + "<br>")
 			f.write("status: " + errors[error]['status'] + "<br>")
 			f.write("parent page: " + errors[error]['parent_page'] + "<br>")
 			f.write("</p>");
-		f.write("</body></html>")
+		f.write("</body>")
+		f.write("</html>")
 	finally:
 		f.close()
 
 def set_verbose_output(print_to_stdout):
-	if print_to_stdout == "true":
+	if print_to_stdout == "--verbose":
 		verbose = True
 	else:
 		verbose = False
@@ -69,17 +72,17 @@ def set_verbose_output(print_to_stdout):
 def main(argv):
 	verbose = False
 	if len(argv) < 2:
-		print "Usage: python simple_spider.py http://www.sampledomain.com <print_to_stdout>"
+		print "Usage: python simple_spider.py http://www.sampledomain.com <--verbose>"
 	else:
 		domain = argv[1]
 		if len(argv) > 2: verbose = set_verbose_output(argv[2])
 		all_pages = get_all_pages_for_domain(domain)
 		all_links = {}
 		for page in all_pages:
-			all_links.update(extract_links_from_html(page))
+			all_links.update(extract_links_from_page_content(page))
 		all_links.pop('', None)
 		errors = inspect_links(all_links, verbose)
-		#html_report(errors, domain)
+		html_report(errors, domain)
 
 		if verbose:
 			print_report(errors, domain)
