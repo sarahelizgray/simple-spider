@@ -54,8 +54,8 @@ def html_report(bad_urls, domain):
 		f.write("<h3>Bad URLs for " + domain + " for " + str(date.today()) +"</h3>")
 		for bad_url in bad_urls:
 			f.write("<p>bad url: " + bad_url + "<br>")
-			f.write("status: " + bad_url[error]['status'] + "<br>")
-			f.write("parent page: " + bad_url[error]['parent_page'] + "<br>")
+			f.write("status: " + bad_urls[bad_url]['status'] + "<br>")
+			f.write("parent page: " + bad_urls[bad_url]['parent_page'] + "<br>")
 			f.write("</p>");
 		f.write("</body>")
 		f.write("</html>")
