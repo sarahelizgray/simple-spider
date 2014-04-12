@@ -12,6 +12,7 @@ class TestSpider(unittest.TestCase):
 		self.mock = mox.Mox()
 		self.mock.StubOutWithMock(requests, 'get')
 		self.urls_with_parents = {'http://wordpress.com' : 'http://www.devlogged.com/about', 'http://aws.amazon.com/ec2/' : 'http://www.devlogged.com/about'}
+		self.bad_urls = {'http://aws.amazon.com/ec2/' : {'status': '404', 'parent_page': 'http://www.devlogged.com/about'}}
 
 	def tearDown(self):
 		self.mock.UnsetStubs()
@@ -41,7 +42,6 @@ class TestSpider(unittest.TestCase):
 		requests.get('http://aws.amazon.com/ec2/').AndReturn(self.session.get('http://aws.amazon.com/ec2/'))
 		self.mock.ReplayAll()
 
-		bad_urls = {'http://aws.amazon.com/ec2/' : {'status': '404', 'parent_page': 'http://www.devlogged.com/about'}}
-		self.assertEquals(bad_urls, inspect_links(self.urls_with_parents))
+		self.assertEquals(self.bad_urls, inspect_links(self.urls_with_parents))
 
 unittest.main()
