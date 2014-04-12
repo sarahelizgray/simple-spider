@@ -21,17 +21,20 @@ def extract_links_from_html(parent_url):
 		links[link.get('href').encode('ascii','ignore')] = parent_url
 	return links
 
-def inspect_links(urls):
+def inspect_links(urls, verbose=False):
 	"""Returns a dictionary of bad links with their status codes"""
 	results = {}
 	for url in urls:
+		if verbose: print "inspecting " + url
 		try:
 			request = requests.get(url)
 		except Exception, e:
 			results[url] = {"status" : str(e), "parent_page" : urls[url]}
 			pass
 		if request.status_code != 200:
-			results[url] = {"status" : str(request.status_code), "parent_page" : urls[url]}
+			bad_url_details = {"status" : str(request.status_code), "parent_page" : urls[url]}
+			if verbose: print bad_url_details
+			results[url] = bad_url_details
 	return results
 
 def print_report(errors, domain):
@@ -56,19 +59,30 @@ def html_report(errors, domain):
 	finally:
 		f.close()
 
+def set_verbose_output(print_to_stdout):
+	if print_to_stdout == "true":
+		verbose = True
+	else:
+		verbose = False
+	return verbose
+
 def main(argv):
-	if len(argv) != 2:
-		print "Usage: python simple_spider.py http://www.sampledomain.com"
+	verbose = False
+	if len(argv) < 2:
+		print "Usage: python simple_spider.py http://www.sampledomain.com <print_to_stdout>"
 	else:
 		domain = argv[1]
-		all_pages = get_alL_pages_for_domain(domain)
+		if len(argv) > 2: verbose = set_verbose_output(argv[2])
+		all_pages = get_all_pages_for_domain(domain)
 		all_links = {}
 		for page in all_pages:
 			all_links.update(extract_links_from_html(page))
 		all_links.pop('', None)
-		errors = inspect_links(all_links)
-		print_report(errors, domain)
-		html_report(errors, domain)
+		errors = inspect_links(all_links, verbose)
+		#html_report(errors, domain)
+
+		if verbose:
+			print_report(errors, domain)
 
 if __name__ == "__main__":
     main(sys.argv)
