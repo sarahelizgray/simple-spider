@@ -45,17 +45,17 @@ def print_report(errors, domain):
 		print "parent page: " + errors[error]['parent_page']
 		print ""
 
-def html_report(errors, domain):
+def html_report(bad_urls, domain):
 	try:
 		f = open("spider.html", "w")
 		f.write("<html>")
 		f.write("<head><title>spider report " + str(date.today()) + "</title></head>")
 		f.write("<body>")
 		f.write("<h3>Bad URLs for " + domain + " for " + str(date.today()) +"</h3>")
-		for error in errors:
-			f.write("<p>bad url: " + error + "<br>")
-			f.write("status: " + errors[error]['status'] + "<br>")
-			f.write("parent page: " + errors[error]['parent_page'] + "<br>")
+		for bad_url in bad_urls:
+			f.write("<p>bad url: " + bad_url + "<br>")
+			f.write("status: " + bad_url[error]['status'] + "<br>")
+			f.write("parent page: " + bad_url[error]['parent_page'] + "<br>")
 			f.write("</p>");
 		f.write("</body>")
 		f.write("</html>")
