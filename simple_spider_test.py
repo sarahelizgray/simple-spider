@@ -29,11 +29,12 @@ class TestSpider(unittest.TestCase):
 		self.assertEqual(links, get_all_pages_for_domain('http://www.devlogged.com'))
 
 	def test_extract_links_from_page_content(self):
-		self.session.mount('http://www.devlogged.com/about', TestAdapter(self.page, status=200))
-		requests.get(mox.IgnoreArg()).AndReturn(self.session.get('http://www.devlogged.com/about'))
+		page_under_test = 'http://www.devlogged.com/about'
+		self.session.mount( page_under_test, TestAdapter(self.page, status=200))
+		requests.get(mox.IgnoreArg()).AndReturn(self.session.get(page_under_test))
 		self.mock.ReplayAll()
 
-		extracted_urls = extract_links_from_page_content('http://www.devlogged.com/about')
+		extracted_urls = extract_links_from_page_content(page_under_test)
 		self.assertEqual(self.urls_with_parents, extracted_urls)
 		self.assertEqual(2, len(extracted_urls))
 
