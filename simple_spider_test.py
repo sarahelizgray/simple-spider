@@ -3,7 +3,7 @@ import mox
 from requests_testadapter import TestAdapter
 from simple_spider import *
 import os
-#set timecop
+from freezegun import freeze_time
 
 
 class TestSpider(unittest.TestCase):
@@ -48,6 +48,7 @@ class TestSpider(unittest.TestCase):
 
 		self.assertEquals(self.bad_url_report, inspect_links(self.urls_with_parents))
 
+	@freeze_time("2014-04-12")
 	def test_html_report(self):
 		html_report(self.bad_url_report, self.domain)
 		generated_spider_report = open("spider.html", "r")

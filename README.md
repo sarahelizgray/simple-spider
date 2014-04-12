@@ -18,6 +18,8 @@ sudo pip install mox
 
 sudo pip install requests_testadapter
 
+sudo pip install freezegun
+
 sudo pip install lxml
 
 ```
