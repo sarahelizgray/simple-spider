@@ -2,6 +2,7 @@ import unittest
 import mox
 from requests_testadapter import TestAdapter
 from simple_spider import *
+import os
 #set timecop
 
 
@@ -49,10 +50,11 @@ class TestSpider(unittest.TestCase):
 
 	def test_html_report(self):
 		html_report(self.bad_url_report, self.domain)
-		#make sure that the report contents are the same
-		#self.assertEqual('spider.html', 'test/sample_spider_report.html')
-
-		#nuke the report once the test has been run
-
+		generated_spider_report = open("spider.html", "r")
+		expected_spider_report = open("test_files/sample_spider_report.html", "r")
+		self.assertEquals(expected_spider_report.read(), generated_spider_report.read())
+		expected_spider_report.close()
+		generated_spider_report.close()
+		os.remove("spider.html")
 
 unittest.main()
