@@ -28,3 +28,4 @@ sudo pip install lxml
 * hit all links in sanitized list
 * generate an email report based on the spider results
 * exclude spider from analytics
+* overhaul to arg parse
